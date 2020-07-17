@@ -1,27 +1,33 @@
 import React from "react";
-import {MOCK} from './Mock';
+import './Recipe.css';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import {
-  Card,
   CardImg,
   CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
-  Button,
 } from "reactstrap";
 
 export function Recipe(props) {
+  console.log("recipe" +props.recipe);
+  const recipe = props.recipe;
   return (
     <div className="Recipe">
       <CardBody>
-  <CardTitle>{MOCK[0].name}</CardTitle>
-  
-        <CardText>
-        {MOCK[0].description}
-        </CardText>
-        <CardImg top width="100%" src={MOCK[0].picture} alt="Card image cap" />
+        <CardTitle>{props.recipe.name}</CardTitle>
+        <CardText>{recipe.description}</CardText>
+        <CardImg top src={recipe.picture} alt="Card image cap" />
+        {recipe.ingredients.map(ingredient=>
+        <ListGroup>
+        <ListGroupItem>{ingredient.name}</ListGroupItem>
+        <ListGroupItem>{ingredient.quantity}</ListGroupItem>
+        <ListGroupItem>{ingredient.unit}</ListGroupItem>
+      </ListGroup>
+        )}
+        <CardText>{recipe.instructions}</CardText>
       </CardBody>
+     
     </div>
   );
 }
