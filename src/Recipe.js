@@ -13,6 +13,7 @@ import {
   ButtonGroup
 } from "reactstrap";
 import Recipes from "./Recipes";
+import Ingredient from "./Ingredient";
 
 export function Recipe(props) {
   const [recipe, setRecipe ]= useState(props.recipe);
@@ -22,15 +23,14 @@ export function Recipe(props) {
   
   const [editMode, setEditMode ]= useState(props.editMode);
   const [addMode, setAddMode ]= useState(props.addMode);
-  {console.log("add   -"+addMode)}
-  {console.log("edit   -"+editMode)}
   const {id, name, picture, description} = recipe;
   //const {Iname, quantity, unit}=recipe.ingredients
   //const [addIngredient, setAddIngredient ]= useState();
   let image = picture;
-  const [display, setDisplay ]= useState(true);
   
-  
+  function deleteIngredient(recipe){
+    setIngredient(recipes.filter((recipe) => recipe.id !== id));
+  }
   
   return (
     <div className="Recipe">
@@ -44,16 +44,10 @@ export function Recipe(props) {
         <CardText>{description}</CardText>
         <CardImg top src={picture} alt="Card image cap" />
         {recipe.ingredients && recipe.ingredients.map((ingredient) => (
+          <Ingredient key={ingredient.id} ingredient={ingredient}/>
           
           
-          <ListGroup>
-            <ListGroupItem>
-              {ingredient.name}{" "}
-              <Badge pill>
-                {ingredient.quantity} {ingredient.unit}
-              </Badge>
-            </ListGroupItem>
-          </ListGroup>
+         
         ))}
         <CardText>{recipe.instructions}</CardText>
         <ButtonGroup>
@@ -69,7 +63,7 @@ export function Recipe(props) {
           </CardTitle>
         <CardText>Description
           {addMode==false?
-          <Input type="textarea" rows="10" defaultValue={description} onChange={(e)=>setRecipe({...recipe, description:e.target.value}, props.update(recipe))}/>
+          <Input type="textarea" rows="10" defaultValue={description} onChange={(e)=>setRecipe({...recipe, description:e.target.value})}/>
           :
           <Input type="textarea" placeholder="description" onChange={(e)=>props.add({...recipe, description:e.target.value})}/>
           }
@@ -77,19 +71,14 @@ export function Recipe(props) {
         <CardText>Picture
         <CardImg src={image} alt="preview"  />
         {addMode==false?
-           <Input defaultValue={picture} onChange={(e)=>{setRecipe({...recipe, picture:e.target.value}, props.update(recipe)); image=e.target.value;}}/>
+           <Input defaultValue={picture} onChange={(e)=>{setRecipe({...recipe, picture:e.target.value}); image=e.target.value;}}/>
           :
-          <Input placeholder="picture" onChange={(e)=>props.add({...recipe, picture:e.target.value})}/>
+          <Input placeholder="picture" onChange={(e)=>{setRecipe({...recipe, picture:e.target.value}); image=e.target.value;}}/>
           }
           </CardText>
           {editMode==true ?
           recipe.ingredients.map((ingredient) => (
-            <ListGroup>
-              <ListGroupItem>
-              <Input defaultValue= {ingredient.name} onChange={(e)=>setRecipe({...recipe, Iname:e.target.value})}/>
-                <Input defaultValue={ingredient.quantity}/> <Input defaultValue={ingredient.unit}/>
-              </ListGroupItem>
-            </ListGroup>
+            <Ingredient ingredient={ingredient} editModeI={editMode}/>
           ))
           : null
           }
