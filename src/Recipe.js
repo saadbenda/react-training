@@ -29,7 +29,7 @@ export function Recipe(props) {
   let image = picture;
   
   function deleteIngredient(recipe){
-    setIngredient(recipes.filter((recipe) => recipe.id !== id));
+    //setIngredient(recipes.filter((recipe) => recipe.id !== id));
   }
   
   return (
@@ -45,9 +45,6 @@ export function Recipe(props) {
         <CardImg top src={picture} alt="Card image cap" />
         {recipe.ingredients && recipe.ingredients.map((ingredient) => (
           <Ingredient key={ingredient.id} ingredient={ingredient}/>
-          
-          
-         
         ))}
         <CardText>{recipe.instructions}</CardText>
         <ButtonGroup>
